@@ -1,8 +1,11 @@
 import express from 'express';
 import { routes } from './routes';
 import { initializeDbConnection } from './db';
+import { config } from "dotenv-flow";
 
 const PORT = process.env.PORT || 8080;
+
+config();
 
 const app = express();
 
