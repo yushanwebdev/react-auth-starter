@@ -27,9 +27,9 @@ export const logInRoute = {
         },
         process.env.JWT_SECRET,
         (err, token) => {
-          if (err) return res.sendStatus(500).json(err);
+          if (err) return res.status(500).json(err);
 
-          return res.sendStatus(200).json({ token });
+          return res.status(200).json({ token });
         }
       );
     } else {
