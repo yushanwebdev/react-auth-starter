@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { ObjectID } from "mongodb";
-import { getDBConnection } from "../db";
+import { getDbConnection } from "../db";
 
 export const updateUserInfoRoute = {
   path: "/api/users/:userId",
@@ -9,12 +9,11 @@ export const updateUserInfoRoute = {
     const { authorization } = req.headers;
     const { userId } = req.params;
 
-    const updates = ({ favouriteFood, hairColor, bio }) =>
-      ({
-        favouriteFood,
-        hairColor,
-        bio,
-      }(req.body)); // We add this to make sure that users don't include extraneous data in the updates that they're trying to make to the database.
+    const updates = (({ favouriteFood, hairColor, bio }) => ({
+      favouriteFood,
+      hairColor,
+      bio,
+    }))(req.body); // We add this to make sure that users don't include extraneous data in the updates that they're trying to make to the database.
 
     if (!authorization) {
       return res.status(401).json({ message: "No authorization received" });
@@ -34,7 +33,7 @@ export const updateUserInfoRoute = {
           .status(403)
           .json({ message: "Not allowed to update that user's data" });
 
-      const db = getDBConnection("react-auth-db");
+      const db = getDbConnection("react-auth-db");
       const result = await db
         .collection("users")
         .findOneAndUpdate(
